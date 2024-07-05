@@ -18,7 +18,6 @@
 
 package org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt;
 
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.powermock.reflect.internal.WhiteboxImpl;
 import org.testng.Assert;
@@ -30,7 +29,6 @@ import org.wso2.carbon.identity.base.IdentityConstants;
 import org.wso2.carbon.identity.common.testng.WithAxisConfiguration;
 import org.wso2.carbon.identity.common.testng.WithCarbonHome;
 import org.wso2.carbon.identity.common.testng.WithH2Database;
-import org.wso2.carbon.identity.common.testng.WithKeyStore;
 import org.wso2.carbon.identity.common.testng.WithRealmService;
 import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.identity.core.util.IdentityUtil;
@@ -69,7 +67,6 @@ import static org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENA
 @WithH2Database(jndiName = "jdbc/WSO2CarbonDB", files = {"dbscripts/identity.sql"})
 @WithRealmService(tenantId = SUPER_TENANT_ID, tenantDomain = SUPER_TENANT_DOMAIN_NAME,
         injectToSingletons = {JWTServiceComponent.class})
-@WithKeyStore
 public class PrivateKeyJWTClientAuthenticatorTest {
 
     PrivateKeyJWTClientAuthenticator privateKeyJWTClientAuthenticator;

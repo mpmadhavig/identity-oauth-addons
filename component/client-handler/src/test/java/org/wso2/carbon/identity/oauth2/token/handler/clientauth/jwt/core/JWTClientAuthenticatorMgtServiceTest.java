@@ -22,7 +22,7 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.identity.common.testng.WithCarbonHome;
-import org.wso2.carbon.identity.common.testng.WithKeyStore;
+import org.wso2.carbon.identity.common.testng.WithRealmService;
 import org.wso2.carbon.identity.configuration.mgt.core.ConfigurationManager;
 import org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.core.dao.cache.JWTConfigCache;
 import org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.core.dao.cache.JWTConfigCacheEntry;
@@ -30,14 +30,17 @@ import org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.core.dao.cac
 import org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.core.dao.impl.CacheBackedJWTConfigurationDAOImpl;
 import org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.core.dao.impl.JWTAuthenticationConfigurationDAOImpl;
 import org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.core.model.JWTClientAuthenticatorConfig;
+import org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.internal.JWTServiceComponent;
 import org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.internal.JWTServiceDataHolder;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
+import static org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENANT_ID;
 
 @WithCarbonHome
-@WithKeyStore
+@WithRealmService(tenantId = SUPER_TENANT_ID, tenantDomain = SUPER_TENANT_DOMAIN_NAME,
+        injectToSingletons = {JWTServiceComponent.class})
 public class JWTClientAuthenticatorMgtServiceTest {
 
     private JWTAuthenticationConfigurationDAOImpl jwtAuthenticationConfigurationDAO;

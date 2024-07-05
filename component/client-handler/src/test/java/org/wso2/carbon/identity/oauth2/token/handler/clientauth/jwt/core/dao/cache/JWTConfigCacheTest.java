@@ -21,15 +21,19 @@ package org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.core.dao.ca
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.identity.common.testng.WithCarbonHome;
-import org.wso2.carbon.identity.common.testng.WithKeyStore;
+import org.wso2.carbon.identity.common.testng.WithRealmService;
 import org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.core.model.JWTClientAuthenticatorConfig;
+import org.wso2.carbon.identity.oauth2.token.handler.clientauth.jwt.internal.JWTServiceComponent;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
+import static org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
+import static org.wso2.carbon.utils.multitenancy.MultitenantConstants.SUPER_TENANT_ID;
 
 @WithCarbonHome
-@WithKeyStore
+@WithRealmService(tenantId = SUPER_TENANT_ID, tenantDomain = SUPER_TENANT_DOMAIN_NAME,
+        injectToSingletons = {JWTServiceComponent.class})
 public class JWTConfigCacheTest {
 
     private JWTConfigCache jwtConfigCache;
