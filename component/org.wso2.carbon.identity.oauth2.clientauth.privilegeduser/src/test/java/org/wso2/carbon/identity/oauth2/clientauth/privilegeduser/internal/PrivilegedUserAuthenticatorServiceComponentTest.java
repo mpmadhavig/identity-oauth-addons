@@ -18,55 +18,40 @@
 
 package org.wso2.carbon.identity.oauth2.clientauth.privilegeduser.internal;
 
-import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentContext;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.testng.IObjectFactory;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.ObjectFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
+import org.wso2.carbon.identity.common.testng.WithCarbonHome;
 import org.wso2.carbon.identity.oauth2.clientauth.privilegeduser.PrivilegedUserAuthenticator;
 
-import java.util.Dictionary;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.testng.Assert.assertEquals;
 
-
-@PrepareForTest(BundleContext.class)
+/**
+ * Unit tests for PrivilegedUserAuthenticatorServiceComponent class.
+ */
+@PrepareForTest({
+        BundleContext.class, ComponentContext.class
+})
+@WithCarbonHome
 public class PrivilegedUserAuthenticatorServiceComponentTest {
 
-
-    @Mock
-    BundleContext bundleContext;
-
-    @Mock
-    private ComponentContext context;
-
-    @ObjectFactory
-    public IObjectFactory getObjectFactory() {
-
-        return new org.powermock.modules.testng.PowerMockObjectFactory();
-    }
-
-    @BeforeClass
-    public void setUp() throws Exception {
-
-        initMocks(this);
-    }
+    private static final Logger log = LoggerFactory.getLogger(PrivilegedUserAuthenticatorServiceComponentTest.class);
 
     @Test
-    public void testActivate() throws Exception {
+    public void testActivate() {
 
-        mockStatic(BundleContext.class);
+        BundleContext bundleContext = mock(BundleContext.class);
+        ComponentContext context = mock(ComponentContext.class);
         when(context.getBundleContext()).thenReturn(bundleContext);
 
         final String[] serviceName = new String[1];
@@ -81,9 +66,10 @@ public class PrivilegedUserAuthenticatorServiceComponentTest {
                 serviceName[0] = privilegedUserAuthenticator.getClass().getName();
                 return null;
             }
-        }).when(bundleContext).registerService(anyString(), any(PrivilegedUserAuthenticator.class), any(Dictionary.class));
+        }).when(bundleContext).registerService(anyString(), any(PrivilegedUserAuthenticator.class), any());
 
-        PrivilegedUserAuthenticatorServiceComponent mutualTLSServiceComponent = new PrivilegedUserAuthenticatorServiceComponent();
+        PrivilegedUserAuthenticatorServiceComponent mutualTLSServiceComponent =
+                new PrivilegedUserAuthenticatorServiceComponent();
         mutualTLSServiceComponent.activate(context);
 
         assertEquals(PrivilegedUserAuthenticator.class.getName(), serviceName[0], "error");
