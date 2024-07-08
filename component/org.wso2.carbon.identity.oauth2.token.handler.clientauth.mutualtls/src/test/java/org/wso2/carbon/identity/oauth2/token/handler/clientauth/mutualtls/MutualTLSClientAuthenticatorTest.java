@@ -24,7 +24,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.lang.StringUtils;
 import org.apache.oltu.oauth2.common.OAuth;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -58,8 +57,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -318,7 +317,7 @@ public class MutualTLSClientAuthenticatorTest extends PowerMockTestCase {
         OAuthClientAuthnContext oAuthClientAuthnContext = (OAuthClientAuthnContext) oAuthClientAuthnContextObj;
         HttpServletRequest httpServletRequest = PowerMockito.mock(HttpServletRequest.class);
         PowerMockito.when(MutualTLSUtil.isJwksUriConfigured(any())).thenReturn(false);
-        PowerMockito.when(OAuth2Util.getTenantDomainOfOauthApp(Matchers.anyString())).thenReturn("carbon.super");
+        PowerMockito.when(OAuth2Util.getTenantDomainOfOauthApp(anyString())).thenReturn("carbon.super");
         PowerMockito.when(OAuth2Util.getX509CertOfOAuthApp(oAuthClientAuthnContext.getClientId(), "carbon.super")).thenReturn
                 (getCertificate(CERTIFICATE_CONTENT));
         PowerMockito.when(httpServletRequest.getAttribute(JAVAX_SERVLET_REQUEST_CERTIFICATE)).thenReturn
@@ -435,7 +434,7 @@ public class MutualTLSClientAuthenticatorTest extends PowerMockTestCase {
         OAuthClientAuthnContext oAuthClientAuthnContext = (OAuthClientAuthnContext) oAuthClientAuthnContextObj;
         HttpServletRequest httpServletRequest = PowerMockito.mock(HttpServletRequest.class);
         PowerMockito.when(MutualTLSUtil.isJwksUriConfigured(any())).thenReturn(true);
-        PowerMockito.when(OAuth2Util.getTenantDomainOfOauthApp(Matchers.anyString()))
+        PowerMockito.when(OAuth2Util.getTenantDomainOfOauthApp(anyString()))
                 .thenReturn(SUPER_TENANT_DOMAIN_NAME);
         PowerMockito
                 .when(OAuth2Util.getX509CertOfOAuthApp(oAuthClientAuthnContext.getClientId(), SUPER_TENANT_DOMAIN_NAME))

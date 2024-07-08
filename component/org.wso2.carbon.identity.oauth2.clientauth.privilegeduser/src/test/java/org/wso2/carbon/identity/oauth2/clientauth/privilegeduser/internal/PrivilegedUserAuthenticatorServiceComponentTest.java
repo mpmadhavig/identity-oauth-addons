@@ -23,16 +23,13 @@ import org.mockito.stubbing.Answer;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentContext;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
-import org.wso2.carbon.identity.common.testng.WithCarbonHome;
 import org.wso2.carbon.identity.oauth2.clientauth.privilegeduser.PrivilegedUserAuthenticator;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.testng.Assert.assertEquals;
 
@@ -42,10 +39,7 @@ import static org.testng.Assert.assertEquals;
 @PrepareForTest({
         BundleContext.class, ComponentContext.class
 })
-@WithCarbonHome
 public class PrivilegedUserAuthenticatorServiceComponentTest {
-
-    private static final Logger log = LoggerFactory.getLogger(PrivilegedUserAuthenticatorServiceComponentTest.class);
 
     @Test
     public void testActivate() {

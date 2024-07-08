@@ -18,56 +18,32 @@
 
 package org.wso2.carbon.identity.oauth2.token.handler.clientauth.mutualtls.internal;
 
-import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentContext;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.testng.IObjectFactory;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
-import org.wso2.carbon.identity.claim.metadata.mgt.ClaimMetadataManagementService;
 import org.wso2.carbon.identity.oauth2.token.handler.clientauth.mutualtls.MutualTLSClientAuthenticator;
 
-import java.util.Dictionary;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.testng.Assert.assertEquals;
 
-
-@PrepareForTest(BundleContext.class)
+/**
+ * Unit tests for MutualTLSServiceComponent class.
+ */
+@PrepareForTest({BundleContext.class, ComponentContext.class})
 public class MutualTLSServiceComponentTest {
-
-
-    @Mock
-    BundleContext bundleContext;
-
-    @Mock
-    private ComponentContext context;
-
-    @ObjectFactory
-    public IObjectFactory getObjectFactory() {
-
-        return new org.powermock.modules.testng.PowerMockObjectFactory();
-    }
-
-    @BeforeClass
-    public void setUp() throws Exception {
-
-        initMocks(this);
-    }
 
     @Test
     public void testActivate() throws Exception {
 
-        mockStatic(BundleContext.class);
+        BundleContext bundleContext = mock(BundleContext.class);
+        ComponentContext context = mock(ComponentContext.class);
         when(context.getBundleContext()).thenReturn(bundleContext);
 
         final String[] serviceName = new String[1];
@@ -77,11 +53,12 @@ public class MutualTLSServiceComponentTest {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
 
-                MutualTLSClientAuthenticator mutualTLSClientAuthenticator = (MutualTLSClientAuthenticator) invocation.getArguments()[1];
+                MutualTLSClientAuthenticator
+                        mutualTLSClientAuthenticator = (MutualTLSClientAuthenticator) invocation.getArguments()[1];
                 serviceName[0] = mutualTLSClientAuthenticator.getClass().getName();
                 return null;
             }
-        }).when(bundleContext).registerService(anyString(), any(MutualTLSClientAuthenticator.class), any(Dictionary.class));
+        }).when(bundleContext).registerService(anyString(), any(MutualTLSClientAuthenticator.class), any());
 
         MutualTLSServiceComponent mutualTLSServiceComponent = new MutualTLSServiceComponent();
         mutualTLSServiceComponent.activate(context);
